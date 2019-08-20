@@ -5,18 +5,16 @@ import {increment, decrement} from '../action/index';
 import {Router, Scene} from 'react-native-router-flux';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import FirstPage from '../screens/FirstPage'
-import LogIn from '../screens/LogIn'
-import Register from '../screens/Register'
+import Home from '../screens/Home'
+// import LogIn from '../screens/LogIn'
+// import Register from '../screens/Register'
 class Counter extends Component {
     render() {
         console.log(this.props.count);
         return (
             <Router hideNavBar="true">
                 <Scene key="root">
-                    <Scene key="FirstPage" component={FirstPage} initial={true}/>
-                    <Scene key="LogIn" component={LogIn} title="LogIn"/>
-                    <Scene key="Register" component={Register} title="Register"/>
+                    <Scene key="Home" component={Home} hideNavBar={true} initial={true}/>
                 </Scene>
             </Router>
         );
