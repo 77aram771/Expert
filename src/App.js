@@ -15,11 +15,13 @@ import Counter from './components/counter.js';
 
 const store = createStore(allReducers);
 
+
+
 export default class App extends Component{
   render(){
     return(
         <Provider store= {store}>
-          <Counter />
+          <Counter/>
         </Provider>
     );
   }
