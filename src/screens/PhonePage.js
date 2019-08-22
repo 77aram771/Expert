@@ -1,18 +1,10 @@
 import React, {Component} from 'react';
 import {Container, Content, Text, Card, Header, Body, Title, CardItem} from 'native-base';
-import {StyleSheet, Image, View, ScrollView, ImageBackground} from 'react-native';
+import {StyleSheet, Image, View, ScrollView, ImageBackground, Dimensions} from 'react-native';
 import FooterButton from "../components/FooterButton";
 import ProgressBar from "../components/ProgressBar";
 import Buttons from "../components/Buttons";
-import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
-
-
-
-
-const radio_props = [
-    {label: 'param1', value: 0},
-    {label: 'param2', value: 1}
-];
+import RadioButton from "../components/RadioButton";
 
 const quizQuestions = [
     {
@@ -38,7 +30,7 @@ const quizQuestions = [
 ];
 
 let sum = 0;
-
+let num = 1;
 class PhonePage extends Component {
     constructor(props) {
         super(props);
@@ -47,62 +39,109 @@ class PhonePage extends Component {
         }
     }
 
-    handleClick = () => {
+    handleClickPlus = () => {
+        if (sum < 3) {
+            console.log(sum);
+            sum++;
+            num = 1 + sum
+        }
 
-        sum ++;
         this.setState({
             value: sum
-        }, () => console.log(this.state.value))
-    }
+        })
+    };
+
+    handleClickMinus = () => {
+        sum--;
+        num = 1 + sum;
+        this.setState({
+            value: sum
+        })
+    };
 
     render() {
-        console.log(sum);
+
+        console.log('quizQuestions.length', quizQuestions.length);
+        console.log('sum', sum);
+
         return (
+
             <View style={styles.Container}>
                 <View style={styles.headerImage}>
-                    <Image source={require('../assets/headerBack.png')} style={{width: 100 + '%', height: 60}}/>
-                </View>
-                <View style={styles.textView}>
-                    <Text style={styles.textView1}>
-                        Save by Comparing Phone
-                        System Prices
-                    </Text>
-                    <Text style={styles.textView2}>
-                        How it works? 1. Complete the form 2. Get matched
-                        with suppliers 3. Save by comparing prices
-                    </Text>
-                    <ProgressBar/>
-                </View>
-                <View>
+                    <View style={styles.imageView}>
+                        <Image source={require('../assets/headerBack.png')} style={{width: 100 + '%', height: 60}}/>
+                    </View>
+                    {/*<ScrollView contentContainerStyle={{*/}
+                    {/*    flex: 2,*/}
+                    {/*    alignItems: 'center',*/}
+                    {/*    borderWidth: 1,*/}
+                    {/*    borderStyle: 'solid',*/}
+                    {/*    borderColor: 'red'*/}
+                    {/*}}>*/}
+                        <View style={styles.textView}>
+                            <Text style={styles.textView1}>
+                                Save by Comparing Phone
+                                System Prices
+                            </Text>
+                            <Text style={styles.textView2}>
+                                How it works? 1. Complete the form 2. Get matched
+                                with suppliers 3. Save by comparing prices
+                            </Text>
+                            <ProgressBar/>
+                        </View>
+                        <View style={styles.quizView}>
+                            <View style={styles.numberBoll}>
+                                <Text style={styles.numberBollText}>
+                                    {num}
+                                </Text>
+                            </View>
+                            <Text>
+                                {quizQuestions[sum].dataName}
+                            </Text>
+                        </View>
+                        <View>
+                            <RadioButton options={quizQuestions[sum].question}/>
+                        </View>
+                        <View style={styles.buttonView2}>
+                            {sum >= quizQuestions.length
+                                ? <Buttons
+                                    width='136'
+                                    text='Compare Prices'
+                                    Click={this.handleClickPlus}
+                                    color='#fa715e'
+                                    colorText='#fff'
+                                    borderCol='#fa715e'
+                                />
+                                : <Buttons
+                                    width='188'
+                                    text='Continue'
+                                    Click={this.handleClickPlus}
+                                    color='#fa715e'
+                                    colorText='#fff'
+                                    borderCol='#fa715e'
+                                />
+                            }
 
-                    <Text>
-                        {quizQuestions[sum].dataName}
-                    </Text>
+                            {sum >= 1
+                                ? <Buttons
+                                    width='136'
+                                    text='Previous'
+                                    Click={this.handleClickMinus}
+                                    color='#fff'
+                                    colorText='#b8b8b8'
+                                    borderCol='#fa715e'
+                                />
+                                : null
+                            }
 
-                    {
-                        quizQuestions[sum].question.map((item, index) => {
-                            return (
-                                <View key={index}>
-                                    <Text>
-                                        {item}
-                                    </Text>
-                                </View>
-                            )
-                        })
-                    }
-                </View>
-                <View>
-                    {/*<RadioForm*/}
-                    {/*    radio_props={radio_props}*/}
-                    {/*    initial={0}*/}
-                    {/*    onPress={(value) => {this.setState({value:value}, () => console.log(this.state.value))}}*/}
-                    {/*/>*/}
-                </View>
-                <View>
-                    <Buttons text='Compare Prices' Click={this.handleClick}/>
+
+                        </View>
+                    {/*</ScrollView>*/}
                 </View>
                 <FooterButton/>
             </View>
+
+
         )
     }
 }
@@ -116,21 +155,29 @@ const styles = StyleSheet.create({
         height: 100 + '%',
         backgroundColor: '#fff',
     },
-    headerImage: {
+    imageView: {
         width: 100 + '%',
-        height: 110,
+    },
+    headerImage: {
+        flex: 0,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        width: 100 + '%',
+        backgroundColor: '#fff',
     },
     textView: {
+        marginTop: 25,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        alignSelf: 'auto',
         width: 75 + '%',
     },
     textView1: {
         textAlign: 'left',
         color: "#5e5e61",
         fontFamily: "Open Sans",
-        fontSize: 24,
+        fontSize: 17,
         fontWeight: "700",
     },
     textView2: {
@@ -138,9 +185,37 @@ const styles = StyleSheet.create({
         marginTop: 15,
         color: "#252525",
         fontFamily: "Open Sans",
-        fontSize: 13,
-        fontWeight: "400"
+        fontSize: 10,
+        fontWeight: "400",
     },
+    numberBoll: {
+        width: 21,
+        height: 20,
+        borderRadius: 9,
+        backgroundColor: "#4062bb",
+        marginTop: 20,
+        marginBottom: 20,
+    },
+    numberBollText: {
+        textAlign: 'center',
+        color: "#feffff",
+        fontFamily: "Open Sans",
+        fontSize: 12,
+        fontWeight: "700",
+        lineHeight: 23.31,
+    },
+    quizView: {
+        flex: 0,
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+    },
+    buttonView2: {
+        width: 80 + '%',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        flexDirection: 'row-reverse',
+    }
 
 });
 

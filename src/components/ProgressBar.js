@@ -6,9 +6,7 @@ class ProgressBar extends Component {
     render() {
         return (
             <View style={styles.divProgress}>
-                <View style={styles.inProgress}>
-
-                </View>
+                <View style={styles.inProgress} />
                 <Text style={styles.textProgress}>
                     10 %
                 </Text>
