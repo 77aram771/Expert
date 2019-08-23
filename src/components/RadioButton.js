@@ -6,18 +6,28 @@ export default class RadioButtons extends Component {
         value: null,
     };
 
+    componentDidMount = async () => {
+        await this.setState({
+             value: null,
+        });
+    };
+
     render() {
-        const {options} = this.props;
+        const {options, nextQuez} = this.props;
         const {value} = this.state;
         console.log('options', options);
+        console.log('next', nextQuez);
+        console.log('value', value);
         return (
             <View>
                 {options.map((item, index) => {
                     return (
                         <TouchableOpacity key={index} style={styles.buttonContainer} onPress={() => {
+
                             this.setState({
                                 value: index,
                             });
+                          nextQuez()
                         }}>
                             <View
                                 style={styles.circle}

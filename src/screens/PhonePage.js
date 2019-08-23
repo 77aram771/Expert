@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import {Container, Content, Text, Card, Header, Body, Title, CardItem} from 'native-base';
-import {StyleSheet, Image, View, ScrollView, ImageBackground, Dimensions} from 'react-native';
+import {StyleSheet, Image, View,  Text, ScrollView, ImageBackground, Dimensions} from 'react-native';
 import FooterButton from "../components/FooterButton";
 import ProgressBar from "../components/ProgressBar";
 import Buttons from "../components/Buttons";
@@ -31,6 +30,7 @@ const quizQuestions = [
 
 let sum = 0;
 let num = 1;
+
 class PhonePage extends Component {
     constructor(props) {
         super(props);
@@ -40,15 +40,18 @@ class PhonePage extends Component {
     }
 
     handleClickPlus = () => {
-        if (sum < 3) {
-            console.log(sum);
-            sum++;
-            num = 1 + sum
-        }
+        setTimeout(() => {
+            if (sum < 3) {
+                console.log(sum);
+                sum++;
+                num = 1 + sum
+            }
 
-        this.setState({
-            value: sum
+            this.setState({
+                value: sum
+            })
         })
+
     };
 
     handleClickMinus = () => {
@@ -60,12 +63,9 @@ class PhonePage extends Component {
     };
 
     render() {
-
         console.log('quizQuestions.length', quizQuestions.length);
         console.log('sum', sum);
-
         return (
-
             <View style={styles.Container}>
                 <View style={styles.headerImage}>
                     <View style={styles.imageView}>
@@ -100,12 +100,12 @@ class PhonePage extends Component {
                             </Text>
                         </View>
                         <View>
-                            <RadioButton options={quizQuestions[sum].question}/>
+                            <RadioButton options={quizQuestions[sum].question} nextQuez={this.handleClickPlus} />
                         </View>
                         <View style={styles.buttonView2}>
-                            {sum >= quizQuestions.length
+                            {sum < 1
                                 ? <Buttons
-                                    width='136'
+                                    width='188'
                                     text='Compare Prices'
                                     Click={this.handleClickPlus}
                                     color='#fa715e'
@@ -113,7 +113,7 @@ class PhonePage extends Component {
                                     borderCol='#fa715e'
                                 />
                                 : <Buttons
-                                    width='188'
+                                    width='136'
                                     text='Continue'
                                     Click={this.handleClickPlus}
                                     color='#fa715e'
@@ -121,7 +121,6 @@ class PhonePage extends Component {
                                     borderCol='#fa715e'
                                 />
                             }
-
                             {sum >= 1
                                 ? <Buttons
                                     width='136'
@@ -133,8 +132,6 @@ class PhonePage extends Component {
                                 />
                                 : null
                             }
-
-
                         </View>
                     {/*</ScrollView>*/}
                 </View>
