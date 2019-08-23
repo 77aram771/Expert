@@ -6,9 +6,12 @@ import {StyleSheet, Image, View,  TouchableOpacity} from 'react-native';
 class Buttons extends Component {
     render() {
         const {text, Click, color, width, textNext, colorText, borderCol} = this.props;
+
+        const num = parseInt(width)
+        console.log('width', typeof num);
         const styles = StyleSheet.create({
             button: {
-                width: 100,
+                width: num,
                 height: 53,
                 borderRadius: 10,
                 backgroundColor: color,
