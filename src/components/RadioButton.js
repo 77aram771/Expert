@@ -6,16 +6,10 @@ export default class RadioButtons extends Component {
         value: null,
     };
 
-    componentDidMount = async () => {
-        await this.setState({
-            value: null,
-        });
-    };
-
     render() {
         const {options, nextQuez} = this.props;
         const {value} = this.state;
-        console.log()
+
         return (
             <View style={{width: 100 + '%', alignItems: 'center', justifyContent: 'center'}}>
                 {options.map((item, index) => {
@@ -23,13 +17,21 @@ export default class RadioButtons extends Component {
                         <TouchableOpacity key={index} style={styles.buttonContainer} onPress={() => {
                             this.setState({
                                 value: index,
+
+                            });
+
+                            setTimeout(() =>{
+                                this.setState({
+                                    value: null,
+                                });
                             });
                             nextQuez()
                         }}>
                             <View
                                 style={styles.circle}
                             >
-                                {value === index ?  <View style={styles.checkedCircle}/> : <View style={styles.checkedCircleGrey}/>}
+                                {value === index ? <View style={styles.checkedCircle}/> :
+                                    <View style={styles.checkedCircleGrey}/>}
                             </View>
                             <Text>{item}</Text>
                         </TouchableOpacity>
@@ -60,7 +62,6 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.58,
         shadowRadius: 16.00,
-
         elevation: 5,
     },
 

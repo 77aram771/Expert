@@ -8,6 +8,7 @@ import {connect} from 'react-redux';
 import Home from '../screens/Home'
 import PhonePage from '../screens/PhonePage'
 import TrackingPage from '../screens/TrackingPage'
+import PreviewPage from '../screens/PreviewPage'
 
 class Counter extends Component {
     render() {
@@ -17,6 +18,7 @@ class Counter extends Component {
                     <Scene key="Home" component={Home} hideNavBar={true} initial={true}/>
                     <Scene key="PhonePage" component={PhonePage} hideNavBar={true}  />
                     <Scene key="TrackingPage" component={TrackingPage} hideNavBar={true}  />
+                    <Scene key="PreviewPage" component={PreviewPage} hideNavBar={true}  />
                 </Scene>
             </Router>
         );

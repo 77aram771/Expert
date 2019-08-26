@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
-import {StyleSheet, Image, View, Text, ScrollView, ImageBackground, Dimensions} from 'react-native';
+import {StyleSheet, Image, View, Text, ScrollView, ImageBackground, Dimensions, Alert} from 'react-native';
+import {Actions} from 'react-native-router-flux';
 import FooterButton from "../components/FooterButton";
 import ProgressBar from "../components/ProgressBar";
 import Buttons from "../components/Buttons";
 import RadioButton from "../components/RadioButton";
+import Inputs from "../components/Inputs";
+
 
 const quizQuestions = [
     {
@@ -26,55 +29,93 @@ const quizQuestions = [
         dataName: 'What do you need your phone system?',
         question: ['Within 1 mounts', 'Within 3 mounts', 'Within 12 mounts', 'In over 12 mounts']
     },
+    {
+        id: 5,
+        dataName: 'Your ZIP code ensures quotes are as accurate as \n' +
+            'possible for your area.',
+        question: ['What is your ZIP code?'],
+    },
+    {
+        id: 6,
+        dataName: 'Good news! We\'ve found you  suppliers. Fill in the last few details \n' +
+            'to get your free quotes!',
+        question: ['Email'],
+    },
+    {
+        id: 7,
+        dataName: '',
+        question: ['Full Name', 'Company Name'],
+    },
+    {
+        id: 8,
+        dataName: 'This is the last page of questions',
+        question: ['Phone number'],
+        text: 'Your privacy is important to us. By submitting your request, you authorize Marketing VF Ltd and up to 5 US-based providers of Telephone Systems to contact you at your number above by telephone, where calls may be recorded, and/or SMS with product offers, even if your number is on any federal, state or other "Do not call" list and to do so using automated technology. Your consent is not a condition of purchase.'
+    }
 ];
-
 let sum = 0;
 let num = 1;
 let progressNum = 12.5;
+
 class PhonePage extends Component {
     constructor(props) {
         super(props);
         this.state = {
             stat: [],
+            value: null,
         }
     }
 
     handleClickPlus = () => {
         setTimeout(() => {
-            if (sum < 3) {
+            if (sum < 6) {
                 sum++;
                 num = 1 + sum
             }
-
             this.setState({
-                value: sum
+                value: null,
             })
         })
 
     };
-
     handleClickMinus = () => {
         sum--;
         num = 1 + sum;
         this.setState({
-            value: sum
+            value: null
         })
+    };
+    buttonClickNext = () => {
+        if (sum <= 3) {
+            alert('This field is required')
+        }
+        if (sum === 7) {
+            sum = 0;
+            num = 1;
+            Actions.PreviewPage()
+        }
+        if (sum <= 6) {
+            setTimeout(() => {
+                if (sum >= 4) {
+                    sum++;
+                    num = 1 + sum;
+                }
+
+                this.setState({
+                    value: null,
+                })
+            })
+        }
     };
 
     render() {
+        console.log(sum)
         return (
             <View style={styles.Container}>
                 <View style={styles.headerImage}>
                     <View style={styles.imageView}>
                         <Image source={require('../assets/headerBack.png')} style={{width: 100 + '%', height: 60}}/>
                     </View>
-                    {/*<ScrollView contentContainerStyle={{*/}
-                    {/*    flex: 2,*/}
-                    {/*    alignItems: 'center',*/}
-                    {/*    borderWidth: 1,*/}
-                    {/*    borderStyle: 'solid',*/}
-                    {/*    borderColor: 'red'*/}
-                    {/*}}>*/}
                     <View style={styles.textView}>
                         <Text style={styles.textView1}>
                             Save by Comparing Phone
@@ -88,18 +129,29 @@ class PhonePage extends Component {
                             progress={progressNum}
                         />
                     </View>
-                    <View style={styles.quizView}>
-                        <View style={styles.numberBoll}>
-                            <Text style={styles.numberBollText}>
-                                {num}
-                            </Text>
-                        </View>
-                        <Text style={styles.quizViewText}>
+                    <View style={sum <= 3 ? styles.quizView : {justifyContent: 'center'}}>
+                        {
+                            sum <= 3
+                                ? <View style={styles.numberBoll}>
+                                    <Text style={styles.numberBollText}>
+                                        {num}
+                                    </Text>
+                                </View> : null
+                        }
+                        <Text style={sum <= 3 ? styles.quizViewText : styles.quizViewText2}>
                             {quizQuestions[sum].dataName}
                         </Text>
+
                     </View>
                     <View style={styles.quizText}>
-                        <RadioButton options={quizQuestions[sum].question} nextQuez={this.handleClickPlus}/>
+                        {
+                            sum <= 3
+                                ? <RadioButton options={quizQuestions[sum].question} nextQuez={this.handleClickPlus}/>
+                                : <Inputs text={quizQuestions[sum].question[0]}/>
+                        }
+                        {
+                            sum === 6 ? <Inputs text={quizQuestions[sum].question[1]}/> : null
+                        }
                     </View>
                     <View style={styles.buttonView2}>
                         {sum < 1
@@ -109,6 +161,7 @@ class PhonePage extends Component {
                                 color='#fa715e'
                                 colorText='#fff'
                                 borderCol='#fa715e'
+                                Click={this.buttonClickNext}
                             />
                             : <Buttons
                                 width='136'
@@ -116,6 +169,7 @@ class PhonePage extends Component {
                                 color='#fa715e'
                                 colorText='#fff'
                                 borderCol='#fa715e'
+                                Click={this.buttonClickNext}
                             />
                         }
                         {sum >= 1
@@ -130,8 +184,22 @@ class PhonePage extends Component {
                             : null
                         }
                     </View>
-                    {/*</ScrollView>*/}
+                    <View style={{
+                        justifyContent: 'center',
+                        width: 90 + '%',
+                        marginTop: 50
+                    }}>
+                        <Text style={{
+                            justifyContent: 'center', textAlign: 'center', color: "#858585",
+                            fontFamily: "Open Sans",
+                            fontSize: 10,
+                            fontWeight: '400'
+                        }}>
+                            {sum === 7 ? quizQuestions[sum].text : null}
+                        </Text>
+                    </View>
                 </View>
+
                 <FooterButton/>
             </View>
 
@@ -215,6 +283,15 @@ const styles = StyleSheet.create({
         fontFamily: "Open Sans",
         fontSize: 17,
         fontWeight: '700',
+    },
+    quizViewText2: {
+        color: "#252525",
+        fontFamily: "Open Sans",
+        fontSize: 10,
+        fontWeight: "700",
+        marginTop: 20,
+        marginBottom: 20,
+        textAlign: 'center'
     },
     quizText: {
         width: 100 + '%',

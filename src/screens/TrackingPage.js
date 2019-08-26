@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import {Container, Content, Text, Card, Header, Body, Title, CardItem} from 'native-base';
-import {StyleSheet, Image, View, Button, ImageBackground} from 'react-native';
+import {StyleSheet, Image, View, Text, Button, ImageBackground} from 'react-native';
 
 class TrackingPage extends Component {
     render() {
