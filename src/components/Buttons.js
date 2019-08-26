@@ -1,14 +1,11 @@
 import React, {Component} from 'react';
-import {Container, Content, Text, Card, Header, Body, Title, CardItem} from 'native-base';
-import {StyleSheet, Image, View,  TouchableOpacity} from 'react-native';
+import {StyleSheet, Image, View, Text, TouchableOpacity} from 'react-native';
 
 
 class Buttons extends Component {
     render() {
-        const {text, Click, color, width, textNext, colorText, borderCol} = this.props;
-
+        const {text, Click, color, width, colorText, borderCol} = this.props;
         const num = parseInt(width)
-        console.log('width', typeof num);
         const styles = StyleSheet.create({
             button: {
                 width: num,

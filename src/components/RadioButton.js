@@ -8,31 +8,28 @@ export default class RadioButtons extends Component {
 
     componentDidMount = async () => {
         await this.setState({
-             value: null,
+            value: null,
         });
     };
 
     render() {
         const {options, nextQuez} = this.props;
         const {value} = this.state;
-        console.log('options', options);
-        console.log('next', nextQuez);
-        console.log('value', value);
+        console.log()
         return (
-            <View>
+            <View style={{width: 100 + '%', alignItems: 'center', justifyContent: 'center'}}>
                 {options.map((item, index) => {
                     return (
                         <TouchableOpacity key={index} style={styles.buttonContainer} onPress={() => {
-
                             this.setState({
                                 value: index,
                             });
-                          nextQuez()
+                            nextQuez()
                         }}>
                             <View
                                 style={styles.circle}
                             >
-                                {value === index && <View style={styles.checkedCircle}/>}
+                                {value === index ?  <View style={styles.checkedCircle}/> : <View style={styles.checkedCircleGrey}/>}
                             </View>
                             <Text>{item}</Text>
                         </TouchableOpacity>
@@ -49,13 +46,22 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         marginBottom: 20,
-        width: 321,
+        width: 77 + '%',
         height: 36,
         borderRadius: 3,
         borderWidth: 1,
         borderStyle: 'solid',
-        borderColor: '#bfdcff',
+        borderColor: "#d3f2ff",
         backgroundColor: '#ffffff',
+        shadowColor: "#d3f2ff",
+        shadowOffset: {
+            width: 0,
+            height: 0,
+        },
+        shadowOpacity: 0.58,
+        shadowRadius: 16.00,
+
+        elevation: 5,
     },
 
     circle: {
@@ -66,7 +72,9 @@ const styles = StyleSheet.create({
         borderColor: '#ACACAC',
         alignItems: 'center',
         justifyContent: 'center',
-        marginRight: 20
+        marginRight: 20,
+        marginLeft: 7,
+
     },
 
     checkedCircle: {
@@ -74,5 +82,12 @@ const styles = StyleSheet.create({
         height: 15,
         borderRadius: 7,
         backgroundColor: '#4bb5ea',
+    },
+
+    checkedCircleGrey: {
+        width: 14,
+        height: 15,
+        borderRadius: 7,
+        backgroundColor: '#f4f4f4',
     },
 });
