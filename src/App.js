@@ -10,7 +10,7 @@ import React, { Component } from 'react';
 import allReducers from './reducers';
 import {createStore} from 'redux';
 import {Provider} from 'react-redux';
-import Counter from './components/counter.js';
+import Counter from './navigation/counter.js';
 
 
 const store = createStore(allReducers);

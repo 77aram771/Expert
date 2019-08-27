@@ -4,7 +4,6 @@ import {StyleSheet, Image, View, Text, Button, ImageBackground} from 'react-nati
 class ProgressBar extends Component {
     render() {
         const {progress} = this.props;
-        const num = parseInt(progress);
         const styles = StyleSheet.create({
             divProgress: {
                 width: 85 + '%',
@@ -15,7 +14,7 @@ class ProgressBar extends Component {
 
             },
             inProgress: {
-                width: num + '%',
+                width: progress + '%',
                 height: 11,
                 borderRadius: 5,
                 backgroundColor: "#1cb09a",
@@ -35,7 +34,7 @@ class ProgressBar extends Component {
             <View style={styles.divProgress}>
                 <View style={styles.inProgress} />
                 <Text style={styles.textProgress}>
-                    progress 10 %
+                    progress {progress} %
                 </Text>
             </View>
         );

@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
-import {Container, Content, Text, Card, Header, Body, Title, CardItem} from 'native-base';
-import {StyleSheet, Image, View, Button, ImageBackground, TouchableOpacity, Alert} from 'react-native';
-import {Actions} from 'react-native-router-flux';
+import {StyleSheet, Image, View, Text, Button, ImageBackground, TouchableOpacity, Alert} from 'react-native';
 
 class FooterButton extends Component {
 
@@ -12,9 +10,10 @@ class FooterButton extends Component {
     };
 
     render() {
+        const {Click} = this.props;
         return (
             <View style={styles.buttonView}>
-                <TouchableOpacity style={styles.buttonStyle} onPress={() => Actions.Home()}>
+                <TouchableOpacity style={styles.buttonStyle} onPress={Click}>
                     <Text style={styles.buttonText}>
                         DEALS
                     </Text>

@@ -8,21 +8,20 @@ class Inputs extends Component {
 
     render() {
         let {name} = this.state;
-        let {text, icon} = this.props;
-        console.log('name', name);
-        console.log('text', text);
-        console.log('icon', icon);
+        let {text, icon, change} = this.props;
+        console.log('change', change);
         return (
             <View style={styles.container}>
                 <View style={styles.SectionStyle}>
                     <Image
-                        //source={require(`${icon}`)}
+                        source={icon}
                         style={styles.ImageStyle}
                     />
                     <TextInput
                         style={{flex: 1}}
                         placeholder={text}
                         underlineColorAndroid="transparent"
+                        onChange={() => console.log('asd')}
                     />
                 </View>
             </View>
@@ -55,11 +54,11 @@ const styles = StyleSheet.create({
 
     ImageStyle: {
         padding: 10,
-        margin: 5,
-        height: 25,
-        width: 25,
+        marginRight: 7,
+        marginTop: 18,
+        marginLeft: 18,
+        marginBottom: 18,
         resizeMode: 'stretch',
-        alignItems: 'center',
     },
 });
 

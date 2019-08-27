@@ -9,7 +9,6 @@ export default class RadioButtons extends Component {
     render() {
         const {options, nextQuez} = this.props;
         const {value} = this.state;
-
         return (
             <View style={{width: 100 + '%', alignItems: 'center', justifyContent: 'center'}}>
                 {options.map((item, index) => {
@@ -17,10 +16,8 @@ export default class RadioButtons extends Component {
                         <TouchableOpacity key={index} style={styles.buttonContainer} onPress={() => {
                             this.setState({
                                 value: index,
-
                             });
-
-                            setTimeout(() =>{
+                            setTimeout(() => {
                                 this.setState({
                                     value: null,
                                 });

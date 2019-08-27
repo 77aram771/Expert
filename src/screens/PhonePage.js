@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
-import {StyleSheet, Image, View, Text, ScrollView, ImageBackground, Dimensions, Alert} from 'react-native';
+import {StyleSheet, Image, View, Text, ScrollView, ImageBackground, Dimensions} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import FooterButton from "../components/FooterButton";
 import ProgressBar from "../components/ProgressBar";
 import Buttons from "../components/Buttons";
 import RadioButton from "../components/RadioButton";
 import Inputs from "../components/Inputs";
-
 
 const quizQuestions = [
     {
@@ -34,28 +33,32 @@ const quizQuestions = [
         dataName: 'Your ZIP code ensures quotes are as accurate as \n' +
             'possible for your area.',
         question: ['What is your ZIP code?'],
+        icon: [require('../assets/earth.png'),]
     },
     {
         id: 6,
         dataName: 'Good news! We\'ve found you  suppliers. Fill in the last few details \n' +
             'to get your free quotes!',
         question: ['Email'],
+        icon: [require('../assets/mail.png'),]
     },
     {
         id: 7,
         dataName: '',
         question: ['Full Name', 'Company Name'],
+        icon: [require('../assets/user.png'), require('../assets/factory.png'),]
     },
     {
         id: 8,
         dataName: 'This is the last page of questions',
         question: ['Phone number'],
+        icon: [require('../assets/phone-call.png'),],
         text: 'Your privacy is important to us. By submitting your request, you authorize Marketing VF Ltd and up to 5 US-based providers of Telephone Systems to contact you at your number above by telephone, where calls may be recorded, and/or SMS with product offers, even if your number is on any federal, state or other "Do not call" list and to do so using automated technology. Your consent is not a condition of purchase.'
     }
 ];
 let sum = 0;
 let num = 1;
-let progressNum = 12.5;
+let progressNum = 0;
 
 class PhonePage extends Component {
     constructor(props) {
@@ -63,10 +66,12 @@ class PhonePage extends Component {
         this.state = {
             stat: [],
             value: null,
+            text: ''
         }
     }
 
     handleClickPlus = () => {
+        progressNum += 10;
         setTimeout(() => {
             if (sum < 6) {
                 sum++;
@@ -79,6 +84,7 @@ class PhonePage extends Component {
 
     };
     handleClickMinus = () => {
+        progressNum -= 10;
         sum--;
         num = 1 + sum;
         this.setState({
@@ -86,12 +92,14 @@ class PhonePage extends Component {
         })
     };
     buttonClickNext = () => {
+        progressNum += 10;
         if (sum <= 3) {
             alert('This field is required')
         }
         if (sum === 7) {
             sum = 0;
             num = 1;
+            progressNum = 0;
             Actions.PreviewPage()
         }
         if (sum <= 6) {
@@ -100,18 +108,23 @@ class PhonePage extends Component {
                     sum++;
                     num = 1 + sum;
                 }
-
                 this.setState({
                     value: null,
                 })
             })
         }
     };
+    footerClickHome = () => {
+        sum = 0;
+        num = 1;
+        progressNum = 0;
+        Actions.Home()
+    };
 
     render() {
-        console.log(sum)
         return (
             <View style={styles.Container}>
+
                 <View style={styles.headerImage}>
                     <View style={styles.imageView}>
                         <Image source={require('../assets/headerBack.png')} style={{width: 100 + '%', height: 60}}/>
@@ -146,11 +159,14 @@ class PhonePage extends Component {
                     <View style={styles.quizText}>
                         {
                             sum <= 3
-                                ? <RadioButton options={quizQuestions[sum].question} nextQuez={this.handleClickPlus}/>
-                                : <Inputs text={quizQuestions[sum].question[0]}/>
+                                ?
+                                <RadioButton options={quizQuestions[sum].question} nextQuez={this.handleClickPlus}/>
+                                : <Inputs text={quizQuestions[sum].question[0]} icon={quizQuestions[sum].icon[0]}
+                                          change={this.state.text}/>
                         }
                         {
-                            sum === 6 ? <Inputs text={quizQuestions[sum].question[1]}/> : null
+                            sum === 6 ? <Inputs text={quizQuestions[sum].question[1]}
+                                                icon={quizQuestions[sum].icon[1]}/> : null
                         }
                     </View>
                     <View style={styles.buttonView2}>
@@ -199,8 +215,9 @@ class PhonePage extends Component {
                         </Text>
                     </View>
                 </View>
-
-                <FooterButton/>
+                <FooterButton
+                    Click={this.footerClickHome}
+                />
             </View>
 
 
