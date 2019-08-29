@@ -7,8 +7,10 @@ export default class RadioButtons extends Component {
     };
 
     render() {
-        const {options, nextQuez} = this.props;
+
+        const {options, nextQuez, stat} = this.props;
         const {value} = this.state;
+
         return (
             <View style={{width: 100 + '%', alignItems: 'center', justifyContent: 'center'}}>
                 {options.map((item, index) => {
@@ -18,11 +20,13 @@ export default class RadioButtons extends Component {
                                 value: index,
                             });
                             setTimeout(() => {
+
                                 this.setState({
                                     value: null,
                                 });
                             });
-                            nextQuez()
+                            nextQuez();
+                            stat(index);
                         }}>
                             <View
                                 style={styles.circle}
@@ -61,7 +65,6 @@ const styles = StyleSheet.create({
         shadowRadius: 16.00,
         elevation: 5,
     },
-
     circle: {
         width: 22,
         height: 22,

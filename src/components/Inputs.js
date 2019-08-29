@@ -9,7 +9,7 @@ class Inputs extends Component {
     render() {
         let {name} = this.state;
         let {text, icon, change} = this.props;
-        console.log('change', change);
+
         return (
             <View style={styles.container}>
                 <View style={styles.SectionStyle}>

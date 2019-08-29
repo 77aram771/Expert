@@ -56,6 +56,13 @@ const quizQuestions = [
         text: 'Your privacy is important to us. By submitting your request, you authorize Marketing VF Ltd and up to 5 US-based providers of Telephone Systems to contact you at your number above by telephone, where calls may be recorded, and/or SMS with product offers, even if your number is on any federal, state or other "Do not call" list and to do so using automated technology. Your consent is not a condition of purchase.'
     }
 ];
+const quizQuestions1 = [
+    {
+        id: 0,
+        dataName: 'Are the handsets for a place of business?',
+        question: ['Yes', 'No']
+    }
+];
 let sum = 0;
 let num = 1;
 let progressNum = 0;
@@ -66,12 +73,22 @@ class PhonePage extends Component {
         this.state = {
             stat: [],
             value: null,
-            text: ''
+            text: '',
         }
     }
 
+    changeProps = (id) => {
+        this.state.stat.push(id);
+        this.setState({stat: this.state.stat});
+    };
+
     handleClickPlus = () => {
         progressNum += 10;
+        if (this.state.stat[1] === 0) {
+            console.log('sum', sum);
+            sum = -1;
+
+        }
         setTimeout(() => {
             if (sum < 6) {
                 sum++;
@@ -83,7 +100,14 @@ class PhonePage extends Component {
         })
 
     };
+
     handleClickMinus = () => {
+        let arr = [...this.state.stat];
+        arr.pop();
+        this.setState({
+            stat: [...arr]
+        });
+        console.log('arr', arr);
         progressNum -= 10;
         sum--;
         num = 1 + sum;
@@ -91,10 +115,13 @@ class PhonePage extends Component {
             value: null
         })
     };
+
     buttonClickNext = () => {
-        progressNum += 10;
         if (sum <= 3) {
             alert('This field is required')
+        }
+        if (sum > 3) {
+            progressNum += 10;
         }
         if (sum === 7) {
             sum = 0;
@@ -114,6 +141,7 @@ class PhonePage extends Component {
             })
         }
     };
+
     footerClickHome = () => {
         sum = 0;
         num = 1;
@@ -124,7 +152,6 @@ class PhonePage extends Component {
     render() {
         return (
             <View style={styles.Container}>
-
                 <View style={styles.headerImage}>
                     <View style={styles.imageView}>
                         <Image source={require('../assets/headerBack.png')} style={{width: 100 + '%', height: 60}}/>
@@ -151,6 +178,13 @@ class PhonePage extends Component {
                                     </Text>
                                 </View> : null
                         }
+                        {
+                            this.state.stat[1] === 0
+                                ? <Text style={sum <= 3 ? styles.quizViewText : styles.quizViewText2}>
+                                    {quizQuestions1[0].dataName}
+                                </Text>
+                                : null
+                        }
                         <Text style={sum <= 3 ? styles.quizViewText : styles.quizViewText2}>
                             {quizQuestions[sum].dataName}
                         </Text>
@@ -158,9 +192,18 @@ class PhonePage extends Component {
                     </View>
                     <View style={styles.quizText}>
                         {
+                            this.state.stat[1] === 0
+                                ? <RadioButton
+                                    options={quizQuestions1[0].question}
+                                    nextQuez={this.handleClickPlus}
+                                    stat={this.changeProps}/>
+                                : null
+                        }
+                        {
                             sum <= 3
                                 ?
-                                <RadioButton options={quizQuestions[sum].question} nextQuez={this.handleClickPlus}/>
+                                <RadioButton options={quizQuestions[sum].question} nextQuez={this.handleClickPlus}
+                                             stat={this.changeProps}/>
                                 : <Inputs text={quizQuestions[sum].question[0]} icon={quizQuestions[sum].icon[0]}
                                           change={this.state.text}/>
                         }
