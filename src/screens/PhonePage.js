@@ -304,7 +304,7 @@ class PhonePage extends Component {
     };
 
     ButtonZip = () => {
-        if(this.state.styleVal.inputZip){
+        if (this.state.styleVal.inputZip) {
             if (sum > 3) {
                 progressNum += 10;
             }
@@ -325,9 +325,100 @@ class PhonePage extends Component {
                     })
                 })
             }
+        } else if (this.state.styleVal.inputZip === '') {
+            alert('Enter True Zip Code')
+        } else {
+            alert('Enter True Zip Code')
         }
-        else {
-            alert('asd')
+
+    };
+
+    ButtonPhone = () => {
+        if (this.state.styleVal.inputPhone) {
+            if (sum > 3) {
+                progressNum += 10;
+            }
+            if (sum === 7) {
+                sum = 0;
+                num = 1;
+                progressNum = 0;
+                Actions.PreviewPage()
+            }
+            if (sum <= 6) {
+                setTimeout(() => {
+                    if (sum >= 4) {
+                        sum++;
+                        num = 1 + sum;
+                    }
+                    this.setState({
+                        value: null,
+                    })
+                })
+            }
+        } else if (this.state.styleVal.inputPhone === '') {
+            alert('Enter True Zip Code')
+        } else {
+            alert('Enter True Zip Code')
+        }
+
+    };
+
+    ButtonName = () => {
+        if (this.state.styleVal.inputName || this.state.styleVal.inputCompany) {
+            if (sum > 3) {
+                progressNum += 10;
+            }
+            if (sum === 7) {
+                sum = 0;
+                num = 1;
+                progressNum = 0;
+                Actions.PreviewPage()
+            }
+            if (sum <= 6) {
+                setTimeout(() => {
+                    if (sum >= 4) {
+                        sum++;
+                        num = 1 + sum;
+                    }
+                    this.setState({
+                        value: null,
+                    })
+                })
+            }
+        } else if (this.state.styleVal.inputName === '' || this.state.styleVal.inputCompany) {
+            alert('Enter True Zip Code')
+        } else {
+            alert('Enter True Zip Code')
+        }
+
+    };
+
+    ButtonEmail = () => {
+        if (this.state.styleVal.inputEmail) {
+            if (sum > 3) {
+                progressNum += 10;
+            }
+            if (sum === 7) {
+                sum = 0;
+                num = 1;
+                progressNum = 0;
+                Actions.PreviewPage()
+            }
+            if (sum <= 6) {
+                setTimeout(() => {
+                    if (sum >= 4) {
+                        sum++;
+                        num = 1 + sum;
+                    }
+                    this.setState({
+                        value: null,
+                    })
+                })
+            }
+        } else if (this.state.styleVal.inputEmail === '') {
+            alert('Enter True Zip Code')
+        } else {
+            alert('Enter True Zip Code')
         }
 
     };
@@ -456,16 +547,17 @@ class PhonePage extends Component {
 
                     </View>
                     <View style={styles.buttonView2}>
-                        {sum < 1
-                            ? <Buttons
-                                width='188'
-                                text='COMPARE PRICES'
-                                color='#fa715e'
-                                colorText='#fff'
-                                borderCol='#fa715e'
-                                Click={this.buttonClickNext}
-                            />
-                            : sum < 3
+                        {
+                            sum < 1
+                                ? <Buttons
+                                    width='188'
+                                    text='COMPARE PRICES'
+                                    color='#fa715e'
+                                    colorText='#fff'
+                                    borderCol='#fa715e'
+                                    Click={this.buttonClickNext}
+                                />
+                                : sum <= 3
                                 ? <Buttons
                                     width='136'
                                     text='CONTINUE'
@@ -496,7 +588,7 @@ class PhonePage extends Component {
                                     color='#fa715e'
                                     colorText='#fff'
                                     borderCol='#fa715e'
-                                    Click={this.handleTest}
+                                    Click={this.ButtonEmail}
                                 />
                                 : null
                         }
@@ -508,7 +600,7 @@ class PhonePage extends Component {
                                     color='#fa715e'
                                     colorText='#fff'
                                     borderCol='#fa715e'
-                                    Click={this.handleTest}
+                                    Click={this.ButtonName}
                                 />
                                 : null
                         }
@@ -520,7 +612,7 @@ class PhonePage extends Component {
                                     color='#fa715e'
                                     colorText='#fff'
                                     borderCol='#fa715e'
-                                    Click={this.handleTest}
+                                    Click={this.ButtonPhone}
                                 />
                                 : null
                         }
