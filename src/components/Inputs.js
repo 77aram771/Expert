@@ -1,18 +1,13 @@
 import React, {Component} from 'react';
-import {StyleSheet, Image, Icon, View, Text, TextInput, TouchableOpacity, ImageBackground} from 'react-native';
+import {StyleSheet, Image, View, TextInput} from 'react-native';
 
 class Inputs extends Component {
-    state = {
-        name: ''
-    };
-
     render() {
-        let {name} = this.state;
-        let {text, icon, change} = this.props;
-
+        let {text, icon, change, value, style} = this.props;
+        console.log(style)
         return (
             <View style={styles.container}>
-                <View style={styles.SectionStyle}>
+                <View style={style ? styles.SectionStyleValT :  styles.SectionStyleValF}>
                     <Image
                         source={icon}
                         style={styles.ImageStyle}
@@ -21,7 +16,8 @@ class Inputs extends Component {
                         style={{flex: 1}}
                         placeholder={text}
                         underlineColorAndroid="transparent"
-                        onChange={() => console.log('asd')}
+                        onChangeText={(text) => change(text)}
+                        value={value}
                     />
                 </View>
             </View>
@@ -47,6 +43,29 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderWidth: 0.5,
         borderColor: '#000',
+        height: 70,
+        borderRadius: 5,
+        margin: 10,
+    },
+
+    SectionStyleValF: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        borderWidth: 0.5,
+        borderColor: 'red',
+        height: 70,
+        borderRadius: 5,
+        margin: 10,
+    },
+    SectionStyleValT: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        borderWidth: 0.5,
+        borderColor: 'green',
         height: 70,
         borderRadius: 5,
         margin: 10,

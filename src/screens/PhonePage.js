@@ -63,8 +63,10 @@ const quizQuestions1 = [
         question: ['Yes', 'No']
     }
 ];
-let sum = 0;
+
+let sum = 4;
 let num = 1;
+let num2 = 0;
 let progressNum = 0;
 
 class PhonePage extends Component {
@@ -73,35 +75,62 @@ class PhonePage extends Component {
         this.state = {
             stat: [],
             value: null,
-            text: '',
+            valid: {
+                text: '',
+                inputZip: '',
+                inputEmail: '',
+                inputName: '',
+                inputCompany: '',
+                inputPhone: ''
+            },
+            styleVal: {
+                text: true,
+                inputZip: false,
+                inputEmail: false,
+                inputName: false,
+                inputCompany: false,
+                inputPhone: false
+            }
+
         }
     }
 
     changeProps = (id) => {
         this.state.stat.push(id);
         this.setState({stat: this.state.stat});
+        console.log('this.state.stat', this.state.stat)
     };
 
-    handleClickPlus = () => {
-        progressNum += 10;
-        if (this.state.stat[1] === 0) {
-            console.log('sum', sum);
-            sum = -1;
-
+    ifSum = () => {
+        if (num2 === 0) {
+            sum = 1;
+            num2 = 5
         }
-        setTimeout(() => {
-            if (sum < 6) {
-                sum++;
-                num = 1 + sum
-            }
-            this.setState({
-                value: null,
-            })
-        })
+    };
 
+    handleClickPlus = async () => {
+        if (this.state.stat[0] === 0) {
+            num2 = 1;
+            console.log('num2', num2);
+        }
+        if (sum >= 2) {
+            num2 = 0;
+            //this.ifSum();
+            console.log('num2', num2)
+        }
+        progressNum += 10;
+        if (sum < 6) {
+            await sum++;
+            num = 1 + sum
+            console.log('sum', sum);
+        }
+        this.setState({
+            value: null,
+        })
     };
 
     handleClickMinus = () => {
+        num2 = 0;
         let arr = [...this.state.stat];
         arr.pop();
         this.setState({
@@ -149,7 +178,169 @@ class PhonePage extends Component {
         Actions.Home()
     };
 
+    ZipValid = (id) => {
+        const re = /^[0-9\b]+$/;
+        console.log(id);
+        if (re.test(id)) {
+            this.setState(prevState => ({
+                styleVal: {
+                    ...prevState.inputZip,
+                    inputZip: true
+                }
+            }))
+        } else {
+            this.setState(prevState => ({
+                styleVal: {
+                    ...prevState.inputZip,
+                    inputZip: false
+                }
+            }))
+        }
+        this.setState(prevState => ({
+            valid: {
+                ...prevState.inputZip,
+                inputZip: id
+            }
+        }))
+    };
+
+    PhoneValid = (id) => {
+        const re = /^[0-9\b]+$/;
+        if (re.test(id)) {
+            this.setState(prevState => ({
+                styleVal: {
+                    ...prevState.inputPhone,
+                    inputPhone: true
+                }
+            }))
+        } else {
+            this.setState(prevState => ({
+                styleVal: {
+                    ...prevState.inputPhone,
+                    inputPhone: false
+                }
+            }))
+        }
+        this.setState(prevState => ({
+            valid: {
+                ...prevState.inputPhone,
+                inputPhone: id
+            }
+        }))
+    };
+
+    NameValid = (id) => {
+        const re = /^[a-z\b]+$/;
+        if (re.test(id)) {
+            this.setState(prevState => ({
+                styleVal: {
+                    ...prevState.inputName,
+                    inputName: true
+                }
+            }))
+        } else {
+            this.setState(prevState => ({
+                styleVal: {
+                    ...prevState.inputName,
+                    inputName: false
+                }
+            }))
+        }
+        this.setState(prevState => ({
+            valid: {
+                ...prevState.inputName,
+                inputName: id
+            }
+        }))
+    };
+
+    CompanyValid = (id) => {
+        const re = /^[a-z\b]+$/;
+        if (re.test(id)) {
+            this.setState(prevState => ({
+                styleVal: {
+                    ...prevState.inputCompany,
+                    inputCompany: true
+                }
+            }))
+        } else {
+            this.setState(prevState => ({
+                styleVal: {
+                    ...prevState.inputCompany,
+                    inputCompany: false
+                }
+            }))
+        }
+        this.setState(prevState => ({
+            valid: {
+                ...prevState.inputCompany,
+                inputCompany: id
+            }
+        }))
+    };
+
+    EmailValid = (id) => {
+        if (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(id)) {
+            this.setState(prevState => ({
+                styleVal: {
+                    ...prevState.inputEmail,
+                    inputEmail: true
+                }
+            }))
+        } else {
+            this.setState(prevState => ({
+                styleVal: {
+                    ...prevState.inputEmail,
+                    inputEmail: false
+                }
+            }))
+        }
+        this.setState(prevState => ({
+            valid: {
+                ...prevState.inputEmail,
+                inputEmail: id
+            }
+        }))
+    };
+
+    ButtonZip = () => {
+        if(this.state.styleVal.inputZip){
+            if (sum > 3) {
+                progressNum += 10;
+            }
+            if (sum === 7) {
+                sum = 0;
+                num = 1;
+                progressNum = 0;
+                Actions.PreviewPage()
+            }
+            if (sum <= 6) {
+                setTimeout(() => {
+                    if (sum >= 4) {
+                        sum++;
+                        num = 1 + sum;
+                    }
+                    this.setState({
+                        value: null,
+                    })
+                })
+            }
+        }
+        else {
+            alert('asd')
+        }
+
+    };
+
     render() {
+        const {
+            inputEmail,
+            inputZip,
+            inputName,
+            inputCompany,
+            inputPhone,
+        } = this.state;
+
         return (
             <View style={styles.Container}>
                 <View style={styles.headerImage}>
@@ -179,20 +370,20 @@ class PhonePage extends Component {
                                 </View> : null
                         }
                         {
-                            this.state.stat[1] === 0
+                            num2 === 1
                                 ? <Text style={sum <= 3 ? styles.quizViewText : styles.quizViewText2}>
                                     {quizQuestions1[0].dataName}
                                 </Text>
-                                : null
+                                : <Text style={sum <= 3 ? styles.quizViewText : styles.quizViewText2}>
+                                    {quizQuestions[sum].dataName}
+                                </Text>
                         }
-                        <Text style={sum <= 3 ? styles.quizViewText : styles.quizViewText2}>
-                            {quizQuestions[sum].dataName}
-                        </Text>
+
 
                     </View>
                     <View style={styles.quizText}>
                         {
-                            this.state.stat[1] === 0
+                            num2 === 1
                                 ? <RadioButton
                                     options={quizQuestions1[0].question}
                                     nextQuez={this.handleClickPlus}
@@ -200,17 +391,69 @@ class PhonePage extends Component {
                                 : null
                         }
                         {
-                            sum <= 3
-                                ?
-                                <RadioButton options={quizQuestions[sum].question} nextQuez={this.handleClickPlus}
-                                             stat={this.changeProps}/>
-                                : <Inputs text={quizQuestions[sum].question[0]} icon={quizQuestions[sum].icon[0]}
-                                          change={this.state.text}/>
+                            num2 === 1
+                                ? null
+                                : sum <= 3 ? <RadioButton
+                                    options={quizQuestions[sum].question}
+                                    nextQuez={this.handleClickPlus}
+                                    stat={this.changeProps}/>
+                                : null
+
                         }
                         {
-                            sum === 6 ? <Inputs text={quizQuestions[sum].question[1]}
-                                                icon={quizQuestions[sum].icon[1]}/> : null
+                            sum === 4
+                                ? <Inputs
+                                    text={quizQuestions[sum].question[0]}
+                                    icon={quizQuestions[sum].icon[0]}
+                                    change={this.ZipValid}
+                                    value={inputZip}
+                                    style={this.state.styleVal.inputZip}
+                                />
+                                : null
                         }
+                        {
+                            sum === 5
+                                ? <Inputs
+                                    text={quizQuestions[sum].question[0]}
+                                    icon={quizQuestions[sum].icon[0]}
+                                    change={this.EmailValid}
+                                    value={inputEmail}
+                                    style={this.state.styleVal.inputEmail}
+                                />
+                                : null
+                        }
+                        {
+                            sum === 6
+                                ? <Inputs
+                                    text={quizQuestions[sum].question[0]}
+                                    icon={quizQuestions[sum].icon[0]}
+                                    change={this.NameValid}
+                                    value={inputName}
+                                />
+                                : null
+                        }
+                        {
+                            sum === 6
+                                ? <Inputs
+                                    text={quizQuestions[sum].question[1]}
+                                    icon={quizQuestions[sum].icon[1]}
+                                    change={this.CompanyValid}
+                                    value={inputCompany}
+                                />
+
+                                : null
+                        }
+                        {
+                            sum === 7
+                                ? <Inputs
+                                    text={quizQuestions[sum].question[0]}
+                                    icon={quizQuestions[sum].icon[0]}
+                                    change={this.PhoneValid}
+                                    value={inputPhone}
+                                />
+                                : null
+                        }
+
                     </View>
                     <View style={styles.buttonView2}>
                         {sum < 1
@@ -222,14 +465,64 @@ class PhonePage extends Component {
                                 borderCol='#fa715e'
                                 Click={this.buttonClickNext}
                             />
-                            : <Buttons
-                                width='136'
-                                text='CONTINUE'
-                                color='#fa715e'
-                                colorText='#fff'
-                                borderCol='#fa715e'
-                                Click={this.buttonClickNext}
-                            />
+                            : sum < 3
+                                ? <Buttons
+                                    width='136'
+                                    text='CONTINUE'
+                                    color='#fa715e'
+                                    colorText='#fff'
+                                    borderCol='#fa715e'
+                                    Click={this.buttonClickNext}
+                                />
+                                : null
+                        }
+                        {
+                            sum === 4
+                                ? <Buttons
+                                    width='136'
+                                    text='CONTINUE'
+                                    color='#fa715e'
+                                    colorText='#fff'
+                                    borderCol='#fa715e'
+                                    Click={this.ButtonZip}
+                                />
+                                : null
+                        }
+                        {
+                            sum === 5
+                                ? <Buttons
+                                    width='136'
+                                    text='CONTINUE'
+                                    color='#fa715e'
+                                    colorText='#fff'
+                                    borderCol='#fa715e'
+                                    Click={this.handleTest}
+                                />
+                                : null
+                        }
+                        {
+                            sum === 6
+                                ? <Buttons
+                                    width='136'
+                                    text='CONTINUE'
+                                    color='#fa715e'
+                                    colorText='#fff'
+                                    borderCol='#fa715e'
+                                    Click={this.handleTest}
+                                />
+                                : null
+                        }
+                        {
+                            sum === 7
+                                ? <Buttons
+                                    width='136'
+                                    text='CONTINUE'
+                                    color='#fa715e'
+                                    colorText='#fff'
+                                    borderCol='#fa715e'
+                                    Click={this.handleTest}
+                                />
+                                : null
                         }
                         {sum >= 1
                             ? <Buttons
@@ -257,13 +550,12 @@ class PhonePage extends Component {
                             {sum === 7 ? quizQuestions[sum].text : null}
                         </Text>
                     </View>
+
                 </View>
                 <FooterButton
                     Click={this.footerClickHome}
                 />
             </View>
-
-
         )
     }
 }
@@ -364,7 +656,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row-reverse',
     }
-
 });
 
 export default PhonePage
