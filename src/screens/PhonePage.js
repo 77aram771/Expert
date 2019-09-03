@@ -64,7 +64,7 @@ const quizQuestions1 = [
     }
 ];
 
-let sum = 4;
+let sum = 0;
 let num = 1;
 let num2 = 0;
 let progressNum = 0;
@@ -226,11 +226,13 @@ class PhonePage extends Component {
                 ...prevState.inputPhone,
                 inputPhone: id
             }
-        }))
+        } ))
     };
 
     NameValid = (id) => {
-        const re = /^[a-z\b]+$/;
+        console.log(this.state)
+        console.log('id name', id);
+        const re = /^[a-zA-Z ]*$/;
         if (re.test(id)) {
             this.setState(prevState => ({
                 styleVal: {
@@ -255,7 +257,8 @@ class PhonePage extends Component {
     };
 
     CompanyValid = (id) => {
-        const re = /^[a-z\b]+$/;
+        console.log('id Com', id)
+        const re = /^[0-9\b]+$/;
         if (re.test(id)) {
             this.setState(prevState => ({
                 styleVal: {
@@ -273,8 +276,8 @@ class PhonePage extends Component {
         }
         this.setState(prevState => ({
             valid: {
-                ...prevState.inputCompany,
-                inputCompany: id
+                ...prevState.inputName,
+                inputName: id
             }
         }))
     };
@@ -430,8 +433,8 @@ class PhonePage extends Component {
             inputName,
             inputCompany,
             inputPhone,
-        } = this.state;
-
+        } = this.state.valid;
+        console.log(this.state)
         return (
             <View style={styles.Container}>
                 <View style={styles.headerImage}>
@@ -520,6 +523,7 @@ class PhonePage extends Component {
                                     icon={quizQuestions[sum].icon[0]}
                                     change={this.NameValid}
                                     value={inputName}
+                                    style={this.state.styleVal.inputName}
                                 />
                                 : null
                         }
@@ -530,8 +534,8 @@ class PhonePage extends Component {
                                     icon={quizQuestions[sum].icon[1]}
                                     change={this.CompanyValid}
                                     value={inputCompany}
+                                    style={this.state.styleVal.inputCompany}
                                 />
-
                                 : null
                         }
                         {
@@ -541,6 +545,7 @@ class PhonePage extends Component {
                                     icon={quizQuestions[sum].icon[0]}
                                     change={this.PhoneValid}
                                     value={inputPhone}
+                                    style={this.state.styleVal.inputPhone}
                                 />
                                 : null
                         }

@@ -5,6 +5,7 @@ class Inputs extends Component {
     render() {
         let {text, icon, change, value, style} = this.props;
         console.log(style)
+        console.log(value)
         return (
             <View style={styles.container}>
                 <View style={style ? styles.SectionStyleValT :  styles.SectionStyleValF}>
